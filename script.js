@@ -1,4 +1,6 @@
 let numCartas;
+let cartasSelecionadas = [];
+let funcao;
 window.onload = iniciarJogo();
 
 function iniciarJogo() {
@@ -34,24 +36,40 @@ function selecionarNumCartas() {
     let carta7 = document.querySelector(".card-7");
     let carta7_2 = document.querySelector(".dupla-card-7");
 
-    let cartas = [carta1, carta1_2, carta2, carta2_2, carta3, carta3_2, carta4, carta4_2, carta5, carta5_2, carta6, carta6_2, carta7, carta7_2];
+   let cartas = [carta1, carta1_2, carta2, carta2_2, carta3, carta3_2, carta4, carta4_2, carta5, carta5_2, carta6, carta6_2, carta7, carta7_2];
+    
 
+   cartasSelecionadas = cartas.slice(0, numCartas);
+ Object.keys(cartasSelecionadas)
 
+   function comparador() { 
+       return Math.random() - 0.5; 
+   } 
 
-    for (let i = 0; i < numCartas; i++) {
-        cartas[i].classList.remove("escondido");
-        
-    }
+   cartasSelecionadas.sort(comparador);
 
+   for (let i = 0; i < numCartas; i++) {
+       
+    cartasSelecionadas[i].classList.remove("escondido");
+     
+}
+
+console.log(cartasSelecionadas)
+  
 }
 
 selecionarNumCartas()
 
+function virarCarta(elemento) {
 
+    elemento.classList.add("transicao"); 
+    
 
-const card = document.querySelector(".card-1"); //mudar classe que procura;
-card.addEventListener("click", () => {
-    card.classList.add(transicao)
+}    
 
-})
+function qualPar(elemento) {
 
+ 
+}
+
+//  setTimeout(minhaFuncao, tempos em milisegundos); executara uma vez a cada x segundos;
