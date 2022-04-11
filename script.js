@@ -1,6 +1,12 @@
 let numCartas;
 let cartasSelecionadas = [];
 let funcao;
+let clickTravado = false;
+let temCartavirada = false;
+let posicaoCaraVirada = -1;
+let valorCartaVirada = 0;
+let pontos = 0;
+
 window.onload = iniciarJogo();
 
 function iniciarJogo() {
@@ -8,14 +14,14 @@ function iniciarJogo() {
     numCartas = Number(prompt("Insira o número de cartas:"));
     condicao = numCartas % 2 === 0 && numCartas >= 4 && numCartas <= 14;
 
-do {
-    if (condicao === true) {
-        
-    } else {
-        alert("Insira apenas números pares entre 4 e 14!");
-        iniciarJogo()
-    }
-} while (condicao === false) 
+    do {
+        if (condicao === true) {
+
+        } else {
+            alert("Insira apenas números pares entre 4 e 14!");
+            iniciarJogo()
+        }
+    } while (condicao === false)
 
 }
 
@@ -36,40 +42,73 @@ function selecionarNumCartas() {
     let carta7 = document.querySelector(".card-7");
     let carta7_2 = document.querySelector(".dupla-card-7");
 
-   let cartas = [carta1, carta1_2, carta2, carta2_2, carta3, carta3_2, carta4, carta4_2, carta5, carta5_2, carta6, carta6_2, carta7, carta7_2];
-    
+    let cartas = [carta1, carta1_2, carta2, carta2_2, carta3, carta3_2, carta4, carta4_2, carta5, carta5_2, carta6, carta6_2, carta7, carta7_2];
 
-   cartasSelecionadas = cartas.slice(0, numCartas);
- Object.keys(cartasSelecionadas)
 
-   function comparador() { 
-       return Math.random() - 0.5; 
-   } 
+    cartasSelecionadas = cartas.slice(0, numCartas);
+    Object.keys(cartasSelecionadas)
 
-   cartasSelecionadas.sort(comparador);
+    function comparador() {
+        return Math.random() - 0.5;
+    }
 
-   for (let i = 0; i < numCartas; i++) {
-       
-    cartasSelecionadas[i].classList.remove("escondido");
-     
-}
+    cartasSelecionadas.sort(comparador);
 
-console.log(cartasSelecionadas)
-  
+    for (let i = 0; i < numCartas; i++) {
+
+        cartasSelecionadas[i].classList.remove("escondido");
+
+    }
+
+    console.log(cartasSelecionadas)
+
 }
 
 selecionarNumCartas()
 
 function virarCarta(elemento) {
+    if (clickTravado) return;
 
-    elemento.classList.add("transicao"); 
+    elemento.classList.add("transicao");
+    let numImg = elemento.getAttribute('data-valor');
+    console.log(numImg)
+    let valor = numCartas[numImg];
     
 
-}    
+    if (!temCartavirada) {
+        temCartavirada = true;
+        posicaoCaraVirada = numImg;
+        valorCartaVirada = valor;
+
+    } else {
+        if (valor == valorCartaVirada) {
+            pontos++
+        } else {
+            const p0 = posicaoCaraVirada;
+            clickTravado = true;
+            setTimeout(() => {
+                elemento.classList.remove("transicao")
+                let img = document.querySelector('.cards ' + p0)
+                img.classList.remove('transicao')
+                clickTravado = false;
+            }, 2000);
+
+        }
+        temCartavirada = false;
+        posicaoCaraVirada = -1;
+        valorCartaVirada = 0;
+    }
+
+
+
+
+}
+
+
+
+//  setTimeout(minhaFuncao, tempos em milisegundos); executara uma vez a cada x segundos;
 
 function qualPar(elemento) {
 
- 
-}
 
-//  setTimeout(minhaFuncao, tempos em milisegundos); executara uma vez a cada x segundos;
+}
